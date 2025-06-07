@@ -1,0 +1,116 @@
+@font-face {
+    font-family: 'pixelify';
+    src: url('fonts/pixelFont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    background-image: url('assets/citybackground.png');
+        background-size: cover;
+        /* cobre toda a tela */
+        background-position: center;
+        /* centraliza a imagem */
+        background-repeat: no-repeat;
+        /* evita repetições */
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    background-color: #222;
+    color: white;
+}
+
+#tela-inicial {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centraliza verticalmente */
+    align-items: center;     /* centraliza horizontalmente */
+    height: 100vh;           /* ocupa toda a altura da tela */
+}
+
+#tela-inicial, #tela-jogo {
+    transition: all 0.5s ease;
+}
+
+
+
+
+
+#botao-iniciar, #botao-controles, #botao-sobre {
+    font-family: 'pixelify', sans-serif;
+    font-size: 18px;
+    border: solid 2px white;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(45deg, orange, red);
+    margin-bottom: 30px;
+    padding: 25px 30px;
+    transition: background 0.5s ease, transform 0.3s ease;
+}
+
+#botao-iniciar:hover, #botao-controles:hover, #botao-sobre:hover {
+  background: linear-gradient(45deg, red, orange);
+  transform: scale(1.20); /* aumenta 5% */
+  box-shadow: 0 0 10px orange;
+}
+
+
+#botao-iniciar:active, #botao-controles:active, #botao-sobre:active {
+  transform: scale(0.95); /* diminui 5% */
+  box-shadow: 0 0 5px orange;
+}
+
+
+
+
+
+
+#logo {
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    width: 500px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: pulsar 2s ease-in-out infinite;
+}
+
+
+@keyframes pulsar {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05); /* aumenta 5% */
+  }
+}
+
+
+
+
+
+
+
+
+
+canvas {
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(255, 123, 0, 0.5);
+}
+
+.tela {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* vertical */
+    align-items: center;
+    /* horizontal */
+    height: 100vh;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/addons/p5.sound.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <!-- Tela inicial -->
+    <div id="tela-inicial">
+        <img src="assets/gamelogo.png" alt="Logo do Jogo" id="logo">
+        <button id="botao-iniciar">Iniciar Jogo</button>
+        <button id="botao-controles">Controles</button>
+        <button id="botao-sobre">Sobre</button>
+    </div>
+    
+    <div id="tela-jogo" class="tela" style="display: none;">
+        <canvas id="jogo" width="800" height="600"></canvas>
+    </div>
+    
+    <script src="script/game.js"></script>
+</body>
+
+</html>
