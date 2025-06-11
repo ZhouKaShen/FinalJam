@@ -18,13 +18,42 @@
         <button id="botao-iniciar">Iniciar Jogo</button>
         <button id="botao-controles">Controles</button>
         <button id="botao-sobre">Sobre</button>
-    </div>
+
+        <div id="modal-controles" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-controles">&times;</span>
+                <img src="assets/controllogo.png" alt="sobre-logo" id="logo-controles">
+                <p>Use as setas do teclado para mover o personagem.</p>
+                <p>Pressione espaço para pular ou interagir.</p>
+            </div>
+        </div>
+        
+        <div id="modal-sobre" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-sobre">&times;</span>
+                <img src="assets/sobrelogo.png" alt="sobre-logo" id="logo-sobre">
+                <p>Vários tipos de gameplays em um único game! 😊</p>
+        
+                <h2>Integrantes do Projeto:</h2>
+                <img src="assets/creatorsgame.png" alt="integrantes-logo" id="logo-integrantes">
+        
+                <h2>Jogo feito com:</h2>
+                <div class="logos-tecnologias">
+                    <img src="assets/html-logo.png" alt="HTML5" title="HTML5">
+                    <img src="assets/css-logo.png" alt="CSS3" title="CSS3">
+                    <img src="assets/js-logo.jpg" alt="JavaScript" title="JavaScript">
+                </div>
+            </div>
+        </div>
+        </div>
     
     <div id="tela-jogo" class="tela" style="display: none;">
+        <button id="botao-voltar" class="botao-voltar">Voltar ao Menu</button>
         <canvas id="jogo" width="800" height="600"></canvas>
     </div>
     
     <script src="script/game.js"></script>
+    <script src="script/script.js"></script>
 </body>
 
 </html>
