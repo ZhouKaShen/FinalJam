@@ -1,6 +1,11 @@
+//const audio = document.getElementById("musica-fundo");
 document.getElementById("botao-iniciar").addEventListener("click", function () {
+  
+  //audio.play();
   document.getElementById("tela-inicial").style.display = "none";
+
   document.getElementById("tela-jogo").style.display = "flex";
+
   const canvas = document.getElementById("jogo");
   iniciarJogo(canvas);
 });
