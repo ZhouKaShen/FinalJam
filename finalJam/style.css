@@ -117,7 +117,7 @@ p {
 
 
 
-canvas {
+#jogo {
     border: 2px solid white;
     box-shadow: 0 0 20px rgba(255, 123, 0, 0.5);
 }
@@ -190,4 +190,17 @@ canvas {
 @keyframes popup {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+
+
+
+#fire-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0; /* Atrás dos elementos */
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
