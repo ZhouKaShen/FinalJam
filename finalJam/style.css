@@ -148,13 +148,15 @@ canvas {
 .modal-content {
   background-color: orangered;
   color: white;
-  margin: 10% auto;
+  margin: 5% auto;
   padding: 30px;
   border: 2px solid #fff;
   width: 60%;
   border-radius: 10px;
   font-family: 'Pixelify Sans', sans-serif;
   text-align: center;
+  animation: popup 0.3s ease-out;
+  
 }
 
 .close {
@@ -166,9 +168,7 @@ canvas {
 }
 
 
-.modal-content {
-  animation: popup 0.3s ease-out;
-}
+
 
 .modal-content .logos-tecnologias {
   display: flex;
