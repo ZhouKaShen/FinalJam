@@ -204,3 +204,19 @@ p {
   height: 100%;
   pointer-events: none;
 }
+
+
+#btn-music-toggle {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#icon-music {
+  width: 60px;
+  height: 60px;
+}

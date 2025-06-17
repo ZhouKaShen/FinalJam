@@ -19,3 +19,23 @@ window.addEventListener("click", (event) => {
     event.target.style.display = "none";
   }
 });
+
+//music
+const music = new Audio('assets/thundersnail.mp4');
+music.loop = true;
+music.volume = 0.5;
+let isPlaying = false;
+
+const btnMusic = document.getElementById('btn-music-toggle');
+const icon = document.getElementById('icon-music');
+
+btnMusic.addEventListener('click', () => {
+  if (isPlaying) {
+    music.pause();
+    icon.src = 'assets/soundoff.png';
+  } else {
+    music.play();
+    icon.src = 'assets/soundon.png';
+  }
+  isPlaying = !isPlaying;
+});
