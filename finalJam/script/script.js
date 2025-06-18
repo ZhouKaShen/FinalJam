@@ -1,3 +1,26 @@
+//const audio = document.getElementById("musica-fundo");
+document.getElementById("botao-iniciar").addEventListener("click", function () {
+  
+  //audio.play();
+  document.getElementById("tela-inicial").style.display = "none";
+
+  document.getElementById("tela-jogo").style.display = "flex";
+
+  const canvas = document.getElementById("jogo");
+  iniciarJogo(canvas);
+});
+
+document.getElementById("botao-voltar").addEventListener("click", function () {
+  // Esconde o canvas
+  document.getElementById("tela-jogo").style.display = "none";
+
+  // Mostra a tela inicial
+  document.getElementById("tela-inicial").style.display = "flex";
+});
+
+
+
+
 document.getElementById("botao-controles").addEventListener("click", () => {
   document.getElementById("modal-controles").style.display = "block";
 });
