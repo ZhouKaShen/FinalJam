@@ -166,7 +166,7 @@ function gerarMinigame() {
     return new MinigameDesviar();
   } else if (sorteio === 2) {
     return new MinigameClicker();
-  } else {
+  } else if (sorteio === 3){
     return new MinigameUndertale();
   }
 }
