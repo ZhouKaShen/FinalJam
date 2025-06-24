@@ -161,7 +161,7 @@ function keyPressed() {
 }
 
 function gerarMinigame() {
-  let sorteio = Math.floor(random(1, 3)); // 1 ou 2
+  let sorteio = Math.floor(random(1, 4)); // 1 ou 2
   if (sorteio === 1) {
     return new MinigameDesviar();
   } else if (sorteio === 2) {
