@@ -145,9 +145,13 @@ function mousePressed() {
 function keyPressed() {
   if (minigame && minigame.ativo) {
     if (key === 'a' || keyCode === LEFT_ARROW) {
-      minigame.moverEsquerda();
+      if (minigame.moverEsquerda){
+        minigame.moverEsquerda();}
     } else if (key === 'd' || keyCode === RIGHT_ARROW) {
-      minigame.moverDireita();
+      if (minigame.moverDireita){
+        minigame.moverDireita();}
+    } else if (key === 'w' || key === ' ' || keyCode === UP_ARROW) {
+      minigame.pular();
     }
   } else {
     if (key === ' ' || key === 'w' || keyCode === UP_ARROW) {
