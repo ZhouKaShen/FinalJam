@@ -4,7 +4,7 @@ let porta;
 let Iniciador;
 let minigame; // variável global para o minigame
 let imgParado,imgParadoEsquerda,imgParadoDireita,imgAndandoEsquerdo,imgAndandoDireito,imgPulando,imgPulandoEsquerdo,imgPulandoDireito, Balde;
-let backgroundgif;
+let backgroundgif,BackgroundNoFire;
 let Door,DoorOpen,FireLeverOpen,FireLeverClosed;
 let WinGif;
 let LoseGif;
@@ -15,6 +15,7 @@ let AguaCaindo;
 let FogoGif,AguaGif;
 let FogoMiniGame2;
 let jogoFinalizado = false;
+let fasePassada = false;
 
 
 function preload() {
@@ -35,6 +36,7 @@ function preload() {
   FireLeverOpen = loadImage('assets/FireAlarmeOpen.png');
 
   backgroundgif =loadImage('assets/background.gif');
+  BackgroundNoFire = loadImage('assets/BackgroundNoFire.png');
 
   WinGif = loadImage('assets/disaster-cat-fire-cat.gif')
   LoseGif = loadImage('assets/cat-cat-meme.gif')
@@ -61,7 +63,11 @@ function setup() {
 
 function draw() {
   background(220)
-  image(backgroundgif,0,0,800,600);
+  if (fasePassada) {
+    image(BackgroundNoFire,0,0,800,600);
+  } else {
+    image(backgroundgif,0,0,800,600);
+  }
   background(0,0,0,50)
   image(Sprinkler,360,0,50,50)
 
@@ -205,6 +211,7 @@ function reiniciarJogo() {
   porta = new Porta(650, 270);
   Iniciador = new IniciadorMinigames(300, 300);
   PortaAberta = false;
+  fasePassada = false;
   minigame = null;
   configurarPlataformasParaNivel(1);
 }
@@ -275,11 +282,13 @@ class MinigameDesviar {
         if (this.pontos >= 5) {
           this.ativo = false;
           this.pontos = 0;
+          fasePassada = true;
           console.log('Venceu o minigame!');
         }
 
         if (player.vida <= 0) {
           this.ativo = false;
+          fasePassada = true;
           console.log('Perdeu o minigame!');
         }
       }
@@ -473,9 +482,10 @@ class Player {
       this.velY = 0;
       this.nivel++;
       PortaAberta = false;
+      fasePassada = false;
 
       if (this.nivel > 3) {
-        this.jogoFinalizado = true;
+        jogoFinalizado = true;
         this.jogoGanhou = true;
       } else {
         this.terminouMinigame = false;
@@ -568,12 +578,14 @@ class MinigameClicker {
     if (this.vida <= 0) {
       this.ativo = false;
       console.log("Venceu o minigame clicker!");
+      fasePassada = true;
     }
 
     if (this.vida >= 70) {
       this.ativo = false;
       player.vida -= 1;
       console.log("Perdeu o minigame clicker!");
+      fasePassada = true;
     }
   }
 
@@ -796,11 +808,13 @@ class MinigameUndertale {
     let tempoDecorrido = (millis() - this.tempoInicio) / 1000;
     if (tempoDecorrido >= 10) {
       this.ativo = false;
+      fasePassada = true;
       console.log('Venceu o minigame undertale!');
     }
 
     if (player.vida <= 0) {
       this.ativo = false;
+      fasePassada = true;
       console.log('Perdeu o minigame undertale!');
     }
   }
