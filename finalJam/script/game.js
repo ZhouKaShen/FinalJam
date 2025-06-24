@@ -158,11 +158,13 @@ function keyPressed() {
 
 function gerarMinigame() {
   // let sorteio = Math.floor(random(1, 3)); // 1 ou 2
-  let sorteio = 2;
+  let sorteio = 3
   if (sorteio === 1) {
     return new MinigameDesviar();
   } else if (sorteio === 2) {
     return new MinigameClicker();
+  } else {
+    return new MinigameUndertale();
   }
 }
 
@@ -415,7 +417,6 @@ class Player {
     this.direcao = 'frente';
     this.andando = false;
     this.frameContador = 0;
-    this.estadoVisual = 'parado'
   }
 
   mover() {
@@ -603,4 +604,251 @@ class MinigameClicker {
   }
 }
 
-7.142857143
+class MinigameUndertale {
+  constructor() {
+    this.ativo = true;
+
+    // Plataformas com ~230px de distância
+    const baseX = width / 2;
+    this.plataformas = [
+      { x: baseX - 115, y: 500, estado: 'normal', tempoNoVermelho: 0 },
+      { x: baseX + 115, y: 500, estado: 'normal', tempoNoVermelho: 0 }
+    ];
+
+    // Jogador
+    this.x = this.plataformas[0].x - 15; // Nasce certinho na plataforma
+    this.y = this.plataformas[0].y - 60;
+    this.largura = 44;
+    this.altura = 62;
+    this.velX = 0;
+    this.velY = 0;
+    this.velocidade = 5;
+    this.forcaPulo = -15;
+    this.noChao = false;
+    this.direcao = 'frente';
+    this.andando = false;
+    this.frameContador = 0;
+
+    // Fogo
+    this.fogos = [];
+
+    // Timers
+    this.tempoUltimaTroca = millis();
+    this.tempoUltimoFogo = millis();
+    this.tempoInicio = millis();
+
+    this.plataformaAlvo = null;
+
+    // Controle de tempo no vermelho
+    this.tempoNaPlataformaVermelha = new Map();
+  }
+
+  atualizar() {
+    this.mover();
+    this.aplicarGravidade();
+    this.atualizarPlataformas();
+    this.atualizarFogos();
+    this.verificarColisoes();
+    this.verificarVitoria();
+  }
+
+  mover() {
+    this.andando = false;
+    if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+      this.velX = -this.velocidade;
+      this.direcao = 'esquerda';
+      this.andando = true;
+    } else if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+      this.velX = this.velocidade;
+      this.direcao = 'direita';
+      this.andando = true;
+    } else {
+      this.velX = 0;
+      this.direcao = 'frente';
+      this.andando = false;
+      this.frameContador = 0;
+    }
+
+    this.x += this.velX;
+    this.x = constrain(this.x, 0, width - this.largura);
+    if(this.andando) {
+      this.frameContador++
+    }
+  }
+
+  aplicarGravidade() {
+    this.velY += 0.8;
+    this.velY = constrain(this.velY, -20, 20);
+
+    this.y += this.velY;
+    this.noChao = false;
+
+    for (let p of this.plataformas) {
+      let colisao =
+          this.x + this.largura > p.x - 50 &&
+          this.x < p.x + 50 &&
+          this.y + this.altura >= p.y &&
+          this.y + this.altura <= p.y + 10;
+
+      if (colisao && this.velY >= 0) {
+        this.y = p.y - this.altura;
+        this.velY = 0;
+        this.noChao = true;
+      }
+    }
+
+    // Colisão com chão
+    if (this.y + this.altura >= height) {
+      this.y = height - this.altura;
+      this.velY = this.forcaPulo;
+      player.vida -= 1;
+      console.log('Caiu no chão, perdeu vida!');
+    }
+  }
+
+  pular() {
+    if (this.noChao) {
+      this.velY = this.forcaPulo;
+      this.noChao = false;
+    }
+  }
+
+  atualizarPlataformas() {
+    let tempoDecorrido = millis() - this.tempoUltimaTroca;
+
+    if (tempoDecorrido >= 0 && tempoDecorrido < 1000) {
+      if (!this.plataformaAlvo) {
+        let indice = floor(random(0, 2));
+        this.plataformaAlvo = this.plataformas[indice];
+        this.plataformaAlvo.estado = 'amarelo';
+      }
+    } else if (tempoDecorrido >= 1000 && tempoDecorrido < 2000) {
+      if (this.plataformaAlvo) {
+        this.plataformaAlvo.estado = 'vermelho';
+      }
+    } else if (tempoDecorrido >= 2000) {
+      for (let p of this.plataformas) {
+        p.estado = 'normal';
+      }
+      this.plataformaAlvo = null;
+      this.tempoUltimaTroca = millis();
+    }
+  }
+
+  atualizarFogos() {
+    if (millis() - this.tempoUltimoFogo >= 1000) {
+      this.fogos.push({ x: width / 2, y: 0 });
+      this.tempoUltimoFogo = millis();
+    }
+
+    for (let fogo of this.fogos) {
+      fogo.y += 10;
+    }
+
+    this.fogos = this.fogos.filter(f => f.y < height + 50);
+  }
+
+  verificarColisoes() {
+    // Fogo
+    for (let fogo of this.fogos) {
+      let colisao =
+          this.x + this.largura > fogo.x - 10 &&
+          this.x < fogo.x + 10 &&
+          this.y + this.altura > fogo.y - 10 &&
+          this.y < fogo.y + 10;
+
+      if (colisao) {
+        player.vida -= 1;
+        fogo.y = height + 100;
+        console.log("Levou dano do fogo!");
+      }
+    }
+
+    // Plataforma vermelha com temporizador de dano
+    for (let p of this.plataformas) {
+      let colisao =
+          this.x + this.largura > p.x - 50 &&
+          this.x < p.x + 50 &&
+          abs(this.y + this.altura - p.y) <= 5;
+
+      if (p.estado === 'vermelho' && colisao) {
+        if (!this.tempoNaPlataformaVermelha.has(p)) {
+          this.tempoNaPlataformaVermelha.set(p, millis());
+        } else {
+          let tempoNaColisao = millis() - this.tempoNaPlataformaVermelha.get(p);
+          if (tempoNaColisao >= 300) {
+            player.vida -= 1;
+            this.velY = this.forcaPulo;
+            console.log("Levou dano da plataforma vermelha após 0.3s e pulou!");
+            this.tempoNaPlataformaVermelha.delete(p); // Reseta contador após dano
+          }
+        }
+      } else {
+        this.tempoNaPlataformaVermelha.delete(p); // Saiu da plataforma vermelha
+      }
+    }
+  }
+
+  verificarVitoria() {
+    let tempoDecorrido = (millis() - this.tempoInicio) / 1000;
+    if (tempoDecorrido >= 10) {
+      this.ativo = false;
+      console.log('Venceu o minigame undertale!');
+    }
+
+    if (player.vida <= 0) {
+      this.ativo = false;
+      console.log('Perdeu o minigame undertale!');
+    }
+  }
+
+  exibir() {
+    background(0,0,0,200);
+
+    // Plataformas
+    for (let p of this.plataformas) {
+      if (p.estado === 'normal') fill(0, 255, 0);
+      else if (p.estado === 'amarelo') fill(255, 255, 0);
+      else if (p.estado === 'vermelho') fill(255, 0, 0);
+
+      rect(p.x - 50, p.y, 100, 20);
+    }
+
+    // Fogos
+    fill(255, 100, 0);
+    for (let fogo of this.fogos) {
+      ellipse(fogo.x, fogo.y, 20);
+    }
+
+    // Jogador (quadrado amarelo)
+    fill(255, 200, 0,0);
+    rect(this.x, this.y, this.largura, this.altura);
+    let img;
+
+    if (this.direcao === 'esquerda') {
+      img = this.andando ?imgAndandoEsquerdo : imgParadoEsquerda;
+    } else if (this.direcao === 'direita') {
+      img = this.andando ?imgAndandoDireito : imgParadoDireita;
+    } else {
+      img = imgParado;
+    }
+
+    if (!this.noChao && this.direcao === 'esquerda') {
+      img = imgPulandoEsquerdo
+    } else if (!this.noChao && this.direcao === 'direita') {
+      img = imgPulandoDireito
+    } else if (!this.noChao && this.direcao === 'frente') {
+      img = imgPulando;
+    }
+
+    image(img, this.x, this.y, this.largura, this.altura);
+
+    // Informações
+    fill(255);
+    textSize(20);
+    textAlign(LEFT);
+    let tempo = max(0, 10 - floor((millis() - this.tempoInicio) / 1000));
+    text(`Vida: ${player.vida}`, 20, 30);
+    text(`Sobreviva: ${tempo}s`, 20, 60);
+  }
+}
