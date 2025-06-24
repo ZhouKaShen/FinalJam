@@ -5,6 +5,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Fire Drilling</title>
+    <link rel="icon" href="assets/icondefogo.png" type="image/png">
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/addons/p5.sound.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -29,7 +31,11 @@
                 <span class="close" data-modal="modal-controles">&times;</span>
                 <img src="assets/controllogo.png" alt="sobre-logo" id="logo-controles">
                 <p>Use as setas do teclado para mover o personagem.</p>
-                <p>Pressione espaço para pular ou interagir.</p>
+                <p>Pressione espaço para pular.</p>
+                <h1>São 3 minigames</h1>
+                <p>- Dodging Flames!!</p>
+                <p>- Quick Clicker!!</p>
+                <p>- Go to the exit!!</p>
             </div>
         </div>
         
@@ -37,7 +43,7 @@
             <div class="modal-content">
                 <span class="close" data-modal="modal-sobre">&times;</span>
                 <img src="assets/sobrelogo.png" alt="sobre-logo" id="logo-sobre">
-                <p>Vários tipos de gameplays em um único game! 😊</p>
+                <p>Vários tipos de gameplays IN-SA-NAS em um único game! 😛</p>
         
                 <h2>Integrantes do Projeto:</h2>
                 <img src="assets/creatorsgame.png" alt="integrantes-logo" id="logo-integrantes">
@@ -52,12 +58,50 @@
         </div>
         </div>
     
-    <div id="tela-jogo" class="tela" style="display: none;">
-        <button id="botao-voltar" class="botao-voltar">Voltar ao Menu</button>
-        <canvas id="jogo" width="800" height="600"></canvas>
-    </div>
+        <div id="modal-inicio" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-inicio">&times;</span>
+                <p>Gostaria de ver a história do game?</p>
+                <div class="modal-buttons">
+                <button id="btn-ver-historia" class="botao-modal">Story</button>
+                <button id="btn-ir-jogo" class="botao-modal">Game</button>
+            </div>
+        </div>
+        </div>
+
+
+        <div id="modal-historia" class="modal">
+            <div class="modal-content">
+                <span class="close" data-modal="modal-historia">&times;</span>
+        
+                <div id="carrossel-historia">
+                    <div class="painel-historia" data-index="0">
+                        <img src="assets/firedrilling - panel 1.jpg" alt="Painel 1" class="painel-imagem">
+                    </div>
+                    <div class="painel-historia" data-index="1" style="display:none;">
+                        <img src="assets/firedrilling - painel 2.jpg" alt="Painel 2" class="painel-imagem">
+                    </div>
+                    <div class="painel-historia" data-index="2" style="display:none;">
+                        <img src="assets/firedrilling - panel 3.jpg" alt="Painel 3" class="painel-imagem">
+                    </div>
+                    <div class="painel-historia" data-index="3" style="display:none;">
+                        <img src="assets/firedrilling - painel 4.jpg" alt="Painel 4" class="painel-imagem">
+                    </div>
+                </div>
+        
+                <div class="controles-carrossel" style="margin-top:20px;">
+                    <button id="btn-anterior">Anterior</button>
+                    <button id="btn-proximo">Próximo</button>
+                </div>
+        
+                <button id="btn-jogo-da-historia" style="margin-top:30px;">Ir para o jogo</button>
+            </div>
+        </div>
+
+
+
     
-    <script src="script/game.js"></script>
+    
     <script src="script/script.js"></script>
     <script src="script/particles.js"></script>
 </body>

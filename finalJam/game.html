@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>FireDrilling - Jogo</title>
+    <link rel="icon" href="assets/icondefogo.png" type="image/png">
+
+    <!-- Fonte e estilos -->
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- p5.js -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.7/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body class="tela">
+    <button id="btn-music-toggle">
+        <img id="icon-music" src="assets/soundon.png" alt="Toggle Music" />
+    </button>
+    <!-- Jogo p5.js será desenhado no canvas automaticamente -->
+    <main id="game-container">
+        <!-- O p5.js cria e insere o canvas automaticamente -->
+    </main>
+
+    <button id="botao-voltar">Voltar para o menu</button>
+
+    <!-- Script do jogo -->
+    <script src="script/game.js"></script>
+    <!-- Script do botão -->
+    <script>
+        document.getElementById("botao-voltar").addEventListener("click", function () {
+            window.location.href = "index.html";
+        });
+
+            const music = new Audio('assets/thundersnail.mp4');
+            music.loop = true;
+            music.volume = 0.5;
+            let isPlaying = false;
+
+            const btnMusic = document.getElementById('btn-music-toggle');
+            const icon = document.getElementById('icon-music');
+
+            // Toca música no primeiro clique na página
+            window.addEventListener('click', () => {
+                if (!isPlaying) {
+                    music.play().then(() => {
+                        isPlaying = true;
+                        icon.src = 'assets/soundon.png';
+                    }).catch((e) => {
+                        console.warn("Autoplay bloqueado pelo navegador:", e);
+                    });
+                }
+            }, { once: true }); // só uma vez
+
+            // Controle do botão
+            btnMusic.addEventListener('click', (e) => {
+                e.stopPropagation(); // evita conflito com o evento acima
+                if (isPlaying) {
+                    music.pause();
+                    icon.src = 'assets/soundoff.png';
+                } else {
+                    music.play();
+                    icon.src = 'assets/soundon.png';
+                }
+                isPlaying = !isPlaying;
+            });
+    </script>
+</body>
+
+</html>
